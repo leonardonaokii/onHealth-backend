@@ -1,0 +1,23 @@
+viacep
+ibge
+restcountries
+
+20/05
+-login
+  -rotas
+  -controller
+  -service
+  -colocar o id e o type vindo do token de login no controller de doctor.
+
+-separar signup de user e doctor [X]
+
+- interfaces
+  - signup (médico e paciente)
+  - signin
+  - dashboard (médico e paciente)
+  - agendar consulta (paciente)
+  - consulta (médico e paciente)
+
+  - atualizar dados do usuário (paciente)
+  - histórico consultas
+    - resultado de consulta
