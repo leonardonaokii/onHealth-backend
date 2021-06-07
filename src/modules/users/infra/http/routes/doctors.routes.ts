@@ -23,12 +23,13 @@ doctorsRouter.post(
 
 doctorsRouter.put(
   '/',
+  ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
       medical_specialty: Joi.number().required(),
     },
   }),
-  doctorsControllers.create,
+  doctorsControllers.update,
 );
 
 doctorsRouter.get('/', ensureAuthenticated, doctorsControllers.show);

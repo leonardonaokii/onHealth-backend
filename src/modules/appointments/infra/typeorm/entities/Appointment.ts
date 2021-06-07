@@ -31,7 +31,7 @@ class Appointment {
   @JoinColumn({ name: 'doctor_id' })
   doctor: Doctor;
 
-  @Column()
+  @Column('timestamp with time zone')
   date: Date;
 
   @Column('int')
@@ -54,6 +54,19 @@ class Appointment {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  getSymptoms(): string {
+    switch (this.symptoms) {
+      case Symptoms.fever:
+        return 'fever';
+      case Symptoms.stomachache:
+        return 'stomachache';
+      case Symptoms.headache:
+        return 'headache';
+      default:
+        return 'Invalid symptom';
+    }
+  }
 }
 
 export default Appointment;

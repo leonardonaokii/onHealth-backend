@@ -1,4 +1,3 @@
-import { UserType } from '@config/enums';
 import AppError from '@shared/errors/AppError';
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
@@ -8,7 +7,7 @@ interface ITokenPayload {
   iat: number;
   exp: number;
   sub: string;
-  type: UserType;
+  type: string;
 }
 
 export default function ensureAuthenticated(

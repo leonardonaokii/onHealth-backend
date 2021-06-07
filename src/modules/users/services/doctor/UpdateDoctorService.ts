@@ -1,13 +1,12 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { UserType } from '@config/enums';
 import IDoctorsRepository from '../../repositories/IDoctorsRepository';
 import Doctor from '../../infra/typeorm/entities/Doctor';
 
 interface IRequest {
   id: string;
-  type: UserType;
+  type: string;
   medical_specialty: number;
 }
 
@@ -29,16 +28,10 @@ class UpdateDoctorService {
       throw new AppError('Doctor not found');
     }
 
-    const checkDoctorExistsByCrm = await this.doctorsRepository.findByCrm(
-      doctor.crm,
-    );
+    console.log(`tipo: ${type}`);
 
-    if (checkDoctorExistsByCrm) {
-      throw new AppError('Crm already registered');
-    }
-
-    if (type !== UserType.doctor) {
-      throw new AppError('Wrong user type.');
+    if (type !== 'doctor') {
+      throw new AppError('User type does not match!');
     }
 
     doctor.medical_specialty = medical_specialty;

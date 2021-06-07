@@ -24,7 +24,7 @@ export default class CreateAppointments1620865547303
           },
           {
             name: 'date',
-            type: 'date',
+            type: 'timestamp with time zone',
           },
           {
             name: 'symptoms',

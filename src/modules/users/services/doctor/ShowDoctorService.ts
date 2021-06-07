@@ -1,13 +1,12 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { UserType } from '@config/enums';
 import Doctor from '../../infra/typeorm/entities/Doctor';
 import IDoctorsRepository from '../../repositories/IDoctorsRepository';
 
 interface IRequest {
   id: string;
-  type: UserType;
+  type: string;
 }
 
 @injectable()
@@ -24,7 +23,7 @@ class ShowUserService {
       throw new AppError('User not found!');
     }
 
-    if (type !== UserType.doctor) {
+    if (type !== 'doctor') {
       throw new AppError('User type does not match!');
     }
 

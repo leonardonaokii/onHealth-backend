@@ -47,7 +47,6 @@ class DoctorsRepository implements IDoctorsRepository {
         },
         skip: (page - 1) * perPage,
         take: perPage,
-        relations: ['users'],
       });
     }
 
@@ -60,7 +59,6 @@ class DoctorsRepository implements IDoctorsRepository {
       },
       skip: (page - 1) * perPage,
       take: perPage,
-      relations: ['users'],
     });
 
     const total = await this.ormRepository.count();
@@ -83,7 +81,6 @@ class DoctorsRepository implements IDoctorsRepository {
   public async findById(id: string): Promise<Doctor | undefined> {
     const doctor = await this.ormRepository.findOne({
       where: { id },
-      relations: ['users'],
     });
 
     return doctor;
