@@ -12,14 +12,18 @@ interface IAppointmentsRepository {
   findAllInMonthFromDoctor(
     data: IFindAllInMonthFromDoctorDTO,
   ): Promise<Appointment[]>;
+  // findAllOrderedAndPaginated(data: IFindAllDTO): Promise<Appointment[]>;
+
+  findAllByUserId(id: string): Promise<Appointment[]>;
+  findAllInDayFromUser(data: IFindAllInDayFromUserDTO): Promise<Appointment[]>;
+
+  findAllByDoctorId(id: string): Promise<Appointment[]>;
   findAllInDayFromDoctor(
     data: IFindAllInDayFromDoctorDTO,
   ): Promise<Appointment[]>;
-  findAllInDayFromUser(data: IFindAllInDayFromUserDTO): Promise<Appointment[]>;
-  // findAllOrderedAndPaginated(data: IFindAllDTO): Promise<Appointment[]>;
-  findAllByUserId(id: string): Promise<Appointment[]>;
-  findAllByDoctorId(id: string): Promise<Appointment[]>;
-  findAllFromDoctor(id: string): Promise<Appointment[]>;
+
+  findById(id: string): Promise<Appointment | undefined>;
+  save(appointment: Appointment): Promise<Appointment>;
 }
 
 export default IAppointmentsRepository;

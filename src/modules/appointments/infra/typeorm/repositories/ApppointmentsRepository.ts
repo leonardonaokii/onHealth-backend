@@ -19,8 +19,6 @@ class AppointmentsRepository implements IAppointmentsRepository {
     date: Date,
     doctor_id: string,
   ): Promise<Appointment | undefined> {
-    console.log(date);
-
     const findAppointment = await this.ormRepository.findOne({
       where: { date, doctor_id },
     });
@@ -43,61 +41,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
             `to_char(${dateFieldName}, 'MM-YYYY') = '${parsedMonth}-${year}'`,
         ),
       },
-      relations: ['doctor', 'patient'],
-    });
-    return appointments;
-  }
-
-  public async findAllInDayFromDoctor({
-    doctor_id,
-    day,
-    month,
-    year,
-  }: IFindAllInDayFromDoctorDTO): Promise<Appointment[]> {
-    const parsedDay = String(day).padStart(2, '0');
-    const parsedMonth = String(month).padStart(2, '0');
-
-    const appointments = await this.ormRepository.find({
-      where: {
-        doctor_id,
-        date: Raw(
-          dateFieldName =>
-            `TO_CHAR(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
-        ),
-      },
-      relations: ['doctor', 'patient'],
-    });
-    return appointments;
-  }
-
-  public async findAllInDayFromUser({
-    patient_id,
-    day,
-    month,
-    year,
-  }: IFindAllInDayFromUserDTO): Promise<Appointment[]> {
-    const parsedDay = String(day).padStart(2, '0');
-    const parsedMonth = String(month).padStart(2, '0');
-
-    const appointments = await this.ormRepository.find({
-      where: {
-        patient_id,
-        date: Raw(
-          dateFieldName =>
-            `TO_CHAR(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
-        ),
-      },
-      relations: ['doctor', 'patient'],
-    });
-    return appointments;
-  }
-
-  public async findAllFromDoctor(doctor_id: string): Promise<Appointment[]> {
-    const appointments = await this.ormRepository.find({
-      where: {
-        doctor_id,
-      },
-      relations: ['doctor', 'patient'],
+      relations: ['doctor', 'doctor.user', 'patient'],
     });
     return appointments;
   }
@@ -122,26 +66,84 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return appointment;
   }
 
+  public async findAllInDayFromUser({
+    patient_id,
+    day,
+    month,
+    year,
+  }: IFindAllInDayFromUserDTO): Promise<Appointment[]> {
+    const parsedDay = String(day).padStart(2, '0');
+    const parsedMonth = String(month).padStart(2, '0');
+
+    const appointments = await this.ormRepository.find({
+      where: {
+        patient_id,
+        date: Raw(
+          dateFieldName =>
+            `TO_CHAR(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
+        ),
+      },
+      relations: ['doctor', 'doctor.user', 'patient'],
+    });
+    return appointments;
+  }
+
   public async findAllByUserId(id: string): Promise<Appointment[]> {
     const appointments = await this.ormRepository.find({
       where: {
         patient_id: id,
       },
-      relations: ['patient', 'doctor'],
+      relations: ['patient', 'doctor.user', 'doctor'],
     });
 
     return appointments;
   }
 
-  public async findAllByDoctorId(id: string): Promise<Appointment[]> {
+  public async findById(id: string): Promise<Appointment | undefined> {
+    const appointments = await this.ormRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['doctor', 'doctor.user', 'doctor.medspec', 'patient'],
+    });
+    return appointments;
+  }
+
+  public async findAllByDoctorId(doctor_id: string): Promise<Appointment[]> {
     const appointments = await this.ormRepository.find({
       where: {
-        doctor_id: id,
+        doctor_id,
       },
-      relations: ['patient', 'doctor'],
+      relations: ['patient', 'doctor.user', 'doctor'],
     });
 
     return appointments;
+  }
+
+  public async findAllInDayFromDoctor({
+    doctor_id,
+    day,
+    month,
+    year,
+  }: IFindAllInDayFromDoctorDTO): Promise<Appointment[]> {
+    const parsedDay = String(day).padStart(2, '0');
+    const parsedMonth = String(month).padStart(2, '0');
+
+    const appointments = await this.ormRepository.find({
+      where: {
+        doctor_id,
+        date: Raw(
+          dateFieldName =>
+            `TO_CHAR(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
+        ),
+      },
+      relations: ['doctor', 'doctor.user', 'patient'],
+    });
+    return appointments;
+  }
+
+  public async save(appointment: Appointment): Promise<Appointment> {
+    return this.ormRepository.save(appointment);
   }
 }
 

@@ -34,6 +34,8 @@ doctorsRouter.put(
 
 doctorsRouter.get('/', ensureAuthenticated, doctorsControllers.show);
 
+doctorsRouter.get('/all', ensureAuthenticated, doctorsControllers.list);
+
 doctorsRouter.get('/crm-availability/:crm', doctorsControllers.crmAvailability);
 
 export default doctorsRouter;

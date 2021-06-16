@@ -27,7 +27,8 @@ class Doctor {
   @JoinColumn({ name: 'medical_specialty' })
   medspec: MedicalSpecialty;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, { cascade: true })
+  @JoinColumn({ name: 'id' })
   user: User;
 
   @Column()

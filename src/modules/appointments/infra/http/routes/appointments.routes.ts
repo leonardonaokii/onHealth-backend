@@ -11,6 +11,14 @@ const appointmentsController = new AppointmentsController();
 
 appointmentsRouter.use(ensureAuthenticated);
 
+appointmentsRouter.use('/doctor', doctorsAppointmentsRouter);
+
+appointmentsRouter.use('/user', usersAppointmentsRouter);
+
+appointmentsRouter.get('/:appointment_id', appointmentsController.show);
+
+appointmentsRouter.put('/:appointment_id', appointmentsController.update);
+
 appointmentsRouter.post(
   '/',
   celebrate({
@@ -23,9 +31,5 @@ appointmentsRouter.post(
   }),
   appointmentsController.create,
 );
-
-appointmentsRouter.use('/doctor', doctorsAppointmentsRouter);
-
-appointmentsRouter.use('/user', usersAppointmentsRouter);
 
 export default appointmentsRouter;

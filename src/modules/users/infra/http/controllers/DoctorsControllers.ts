@@ -6,6 +6,7 @@ import { classToClass } from 'class-transformer';
 import UpdateDoctorService from '@modules/users/services/doctor/UpdateDoctorService';
 import ShowDoctorService from '@modules/users/services/doctor/ShowDoctorService';
 import CheckCrmAvailabilityService from '@modules/users/services/doctor/CheckCrmAvailabilityService';
+import ListDoctorsService from '@modules/users/services/doctor/ListDoctorsService';
 
 class DoctorsControllers {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -65,6 +66,18 @@ class DoctorsControllers {
     const validation = await checkCrmAvailabilityService.execute(crm);
 
     return response.json(validation);
+  }
+
+  public async list(request: Request, response: Response): Promise<Response> {
+    const { medical_specialty_id } = request.query;
+
+    const listDoctorsService = container.resolve(ListDoctorsService);
+
+    const doctors = await listDoctorsService.execute(
+      Number(medical_specialty_id),
+    );
+
+    return response.json(classToClass(doctors));
   }
 }
 
