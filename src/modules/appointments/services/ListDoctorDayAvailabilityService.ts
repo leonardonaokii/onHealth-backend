@@ -48,7 +48,9 @@ class ListDoctorDayAvailabilityService {
       },
     );
 
-    const eachHourArray = Array.from({ length: 24 }, (_, index) => index + 1);
+    const startHour = 9;
+
+    const eachHourArray = Array.from({ length: 9 }, (_, index) => index + startHour);
 
     const currentDate = new Date(Date.now());
 

@@ -4,13 +4,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { AppointmentStatus, Symptoms, AppointmentRate } from '@config/enums';
+import { AppointmentStatus, AppointmentRate } from '@config/enums';
 import User from '../../../../users/infra/typeorm/entities/User';
 import Doctor from '../../../../users/infra/typeorm/entities/Doctor';
+import AppointmentsSymptoms from '../../../../appointments/infra/typeorm/entities/AppointmentsSymptoms';
 
 @Entity('appointments')
 class Appointment {
@@ -34,8 +36,10 @@ class Appointment {
   @Column('timestamp with time zone')
   date: Date;
 
-  @Column('int')
-  symptoms: Symptoms;
+  @OneToMany(() => AppointmentsSymptoms, appointment_symptoms => appointment_symptoms.appointment, {
+    cascade: true,
+  })
+  appointment_symptoms: AppointmentsSymptoms[];
 
   @Column()
   description: string;
@@ -54,19 +58,6 @@ class Appointment {
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  getSymptoms(): string {
-    switch (this.symptoms) {
-      case Symptoms.fever:
-        return 'fever';
-      case Symptoms.stomachache:
-        return 'stomachache';
-      case Symptoms.headache:
-        return 'headache';
-      default:
-        return 'Invalid symptom';
-    }
-  }
 }
 
 export default Appointment;

@@ -14,7 +14,7 @@ const doctorDayAvailabilityController = new DoctorDayAvailabilityController();
 
 doctorsRouter.use(ensureAuthenticated);
 
-doctorsRouter.get('/', doctorAppointmentsController.teste);
+doctorsRouter.get('/', doctorAppointmentsController.index);
 
 doctorsRouter.get(
   '/:doctor_id/month-availability',
@@ -35,7 +35,5 @@ doctorsRouter.get(
   }),
   doctorDayAvailabilityController.index,
 );
-
-doctorsRouter.get('/teste', doctorAppointmentsController.index);
 
 export default doctorsRouter;

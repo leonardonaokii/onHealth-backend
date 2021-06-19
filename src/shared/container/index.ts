@@ -15,6 +15,9 @@ import DoctorsRepository from '@modules/users/infra/typeorm/repositories/Doctors
 import IMedicalSpecialtyRepository from '@modules/medicalSpecialty/repositories/IMedicalSpecialtyRepository';
 import MedicalSpecialtyRepository from '@modules/medicalSpecialty/infra/typeorm/repositories/MedicalSpecialtyRepository';
 
+import ISymptomsRepository from '@modules/symptoms/repositories/ISymptomsRepository';
+import SymptomsRepository from '@modules/symptoms/infra/typeorm/repositories/SymptomsRepository';
+
 container.registerSingleton<IAppointmentsRepository>(
   'AppointmentsRepository',
   AppointmentsRepository,
@@ -33,4 +36,9 @@ container.registerSingleton<IDoctorsRepository>(
 container.registerSingleton<IMedicalSpecialtyRepository>(
   'MedicalSpecialtyRepository',
   MedicalSpecialtyRepository,
+);
+
+container.registerSingleton<ISymptomsRepository>(
+  'SymptomsRepository',
+  SymptomsRepository,
 );

@@ -25,7 +25,7 @@ appointmentsRouter.post(
     [Segments.BODY]: {
       doctor_id: Joi.string().uuid().required(),
       date: Joi.date().required(),
-      symptoms: Joi.number().required(),
+      symptoms: Joi.array().required(),
       description: Joi.string().required(),
     },
   }),

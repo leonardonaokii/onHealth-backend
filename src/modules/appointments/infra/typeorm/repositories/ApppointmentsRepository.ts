@@ -41,7 +41,8 @@ class AppointmentsRepository implements IAppointmentsRepository {
             `to_char(${dateFieldName}, 'MM-YYYY') = '${parsedMonth}-${year}'`,
         ),
       },
-      relations: ['doctor', 'doctor.user', 'patient'],
+      relations: ['doctor', 'doctor.user', 'patient', 'appointment_symptoms', 'appointment_symptoms.symptom'],
+      order: {date: 'ASC'},
     });
     return appointments;
   }
@@ -57,7 +58,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
       patient_id,
       doctor_id,
       date,
-      symptoms,
+      appointment_symptoms: symptoms,
       description,
     });
 
@@ -83,7 +84,8 @@ class AppointmentsRepository implements IAppointmentsRepository {
             `TO_CHAR(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
-      relations: ['doctor', 'doctor.user', 'patient'],
+      relations: ['doctor', 'doctor.user', 'patient', 'appointment_symptoms', 'appointment_symptoms.symptom'],
+      order: {date: 'ASC'},
     });
     return appointments;
   }
@@ -93,7 +95,8 @@ class AppointmentsRepository implements IAppointmentsRepository {
       where: {
         patient_id: id,
       },
-      relations: ['patient', 'doctor.user', 'doctor'],
+      relations: ['patient', 'doctor.user', 'doctor', 'appointment_symptoms', 'appointment_symptoms.symptom'],
+      order: {date: 'ASC'},
     });
 
     return appointments;
@@ -104,7 +107,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
       where: {
         id,
       },
-      relations: ['doctor', 'doctor.user', 'doctor.medspec', 'patient'],
+      relations: ['doctor', 'doctor.user', 'doctor.medspec', 'patient', 'appointment_symptoms', 'appointment_symptoms.symptom'],
     });
     return appointments;
   }
@@ -114,7 +117,8 @@ class AppointmentsRepository implements IAppointmentsRepository {
       where: {
         doctor_id,
       },
-      relations: ['patient', 'doctor.user', 'doctor'],
+      relations: ['patient', 'doctor.user', 'doctor', 'appointment_symptoms', 'appointment_symptoms.symptom'],
+      order: {date: 'ASC'},
     });
 
     return appointments;
@@ -137,7 +141,8 @@ class AppointmentsRepository implements IAppointmentsRepository {
             `TO_CHAR(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
-      relations: ['doctor', 'doctor.user', 'patient'],
+      relations: ['doctor', 'doctor.user', 'patient', 'appointment_symptoms', 'appointment_symptoms.symptom'],
+      order: {date: 'ASC'},
     });
     return appointments;
   }
